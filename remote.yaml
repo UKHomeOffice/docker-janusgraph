@@ -1,0 +1,10 @@
+hosts: [localhost]
+port: 8182
+connectionPool: {
+  enableSsl: true,
+  trustCertChainFile: "/dev/shm/pki/janusgraph.crt"
+  }
+serializer: {
+  className: org.apache.tinkerpop.gremlin.driver.ser.GryoMessageSerializerV1d0,
+  config: { serializeResultToString: true }
+  }
