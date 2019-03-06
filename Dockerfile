@@ -9,8 +9,7 @@ RUN unzip -q /janusgraph.zip -d /var \
  && rm /janusgraph.zip \
  && mv /var/dynamodb-janusgraph-storage-backend-*/ /var/janusgraph
 
-COPY dynamodb.properties gremlin-server.yaml /var/janusgraph/conf/gremlin-server/
-COPY remote.yaml /var/janusgraph/conf/
+COPY conf/ /var/janusgraph/conf/
 COPY docker-entrypoint.sh /var/janusgraph/
 
 WORKDIR /var/janusgraph
