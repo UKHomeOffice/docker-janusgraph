@@ -1,4 +1,7 @@
 FROM amazonlinux
+
+EXPOSE 8182
+
 RUN yum update -y -q -e 0 \
  && yum upgrade -y -q -e 0 \
  && yum install -y -q java-1.8.0-openjdk openssl unzip
