@@ -18,16 +18,26 @@ The image can be configured by using the following environment variables:
 * **HTTPS_KEY**: A base64 encoded TLS private key to be used with the server certificate on the HTTP server.
 
 
-Building
---------
+Working with this repository
+----------------------------
+
+### Prerequisites
+
+- Docker
+- docker-compose
+- git
+- (GNU?) Make
+- openssl
+
+
+### Building
 
 - To build a Docker image, tagged as `janusgraph`, run `make docker`.
 - To build everything required to build a Docker image run `make build`.
 - To pull down external dependencies without building run `make deps`.
 
 
-Running
--------
+### Running
 
 In order facilitate testing and experimentation, a docker-compose is provided
 that runs JanusGraph against a local DynamoDB back-end with an ElasticSearch
@@ -66,8 +76,7 @@ curl -k -X POST -d "{\"gremlin\":\"g.V().has('name', x).out('lives').in('lives')
 ```
 
 
-Testing
--------
+### Testing
 
 In the future it will be possible to acceptance test this repository by running:
 ```shell
