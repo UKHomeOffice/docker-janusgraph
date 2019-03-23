@@ -16,6 +16,8 @@ Configuration
 The image can be configured by using the following environment variables:
 * **HTTPS_CRT**: A base64 encoded TLS certificate to be used as the server certificate on the HTTP server.
 * **HTTPS_KEY**: A base64 encoded TLS private key to be used with the server certificate on the HTTP server.
+* **LISTEN_HOST**: The host the HTTP server should listen on. Default: `0.0.0.0`
+* **LISTEN_PORT**: The host the HTTP server should listen on. Default: `8182`
 
 
 Working with this repository

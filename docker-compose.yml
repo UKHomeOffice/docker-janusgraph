@@ -5,6 +5,7 @@ services:
     environment:
       - HTTPS_CRT=${JANUSGRAPH_CRT}
       - HTTPS_KEY=${JANUSGRAPH_KEY}
+      - LISTEN_PORT=8182
     healthcheck:
       test: ["CMD-SHELL", "curl -kf https://localhost:8182/?gremlin=1; if [ $$? -eq 22 ]; then exit 0; else exit 1; fi"]
       interval: 1s

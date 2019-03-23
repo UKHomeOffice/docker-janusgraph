@@ -1,5 +1,7 @@
 FROM amazonlinux
 
+ENV LISTEN_HOST="0.0.0.0" \
+    LISTEN_PORT="8182"
 EXPOSE 8182
 
 RUN yum update -y -q -e 0 \
