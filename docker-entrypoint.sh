@@ -8,6 +8,7 @@ pki_dir="/dev/shm/pki/"
 pki_crt="${pki_dir}/janusgraph.crt"
 pki_key="${pki_dir}/janusgraph.key"
 pki_pk8="${pki_dir}/janusgraph.pk8"
+conf_dir="./conf/"
 
 function mandatoryCheck () {
     if [[ -z "${1}" ]]; then
@@ -38,5 +39,14 @@ fi
 
 openssl pkcs8 -topk8 -nocrypt -inform PEM -outform PEM -in "${pki_key}" -out "${pki_pk8}"
 
+# Write configuration files from templates
+for f in "conf-templates/"* "conf-templates/"**/*; do
+    if [[ -f "${f}" ]]; then
+        target="${f#*/}"
+        echo "Writing ${target}..."
+        envsubst < "${f}" > "${conf_dir}/${target}"
+    fi
+done
+
 # Start Gremlin server
-"/var/janusgraph/bin/gremlin-server.sh" "./conf/gremlin-server/gremlin-server.yaml"
+"/var/janusgraph/bin/gremlin-server.sh" "${conf_dir}/gremlin-server/gremlin-server.yaml"

@@ -5,6 +5,7 @@ EXPOSE 8182
 RUN yum update -y -q -e 0 \
  && yum upgrade -y -q -e 0 \
  && yum install -y -q \
+      gettext \
       java-1.8.0-openjdk \
       openssl \
       shadow-utils \
@@ -16,7 +17,7 @@ RUN unzip -q /janusgraph.zip -d /var \
  && rm /janusgraph.zip \
  && mv /var/dynamodb-janusgraph-storage-backend-*/ /var/janusgraph
 
-COPY conf/ /var/janusgraph/conf/
+COPY conf/ /var/janusgraph/conf-templates/
 COPY docker-entrypoint.sh /var/janusgraph/
 
 RUN adduser -rUM janus -u 31337 -d /var/janusgraph/ \
