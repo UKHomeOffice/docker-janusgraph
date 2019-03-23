@@ -1,0 +1,38 @@
+version: '3'
+services:
+  janusgraph:
+    build: "./"
+    environment:
+      - HTTPS_CRT=${JANUSGRAPH_CRT}
+      - HTTPS_KEY=${JANUSGRAPH_KEY}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -kf https://localhost:8182/?gremlin=1; if [ $$? -eq 22 ]; then exit 0; else exit 1; fi"]
+      interval: 1s
+      timeout: 20s
+      retries: 20
+    ports:
+      - "8182:8182"
+    depends_on:
+      - "dynamodb"
+      - "elasticsearch"
+  dynamodb:
+    build: "./deps/dynamodb-janusgraph-storage-backend/src/test/resources/dynamodb-local-docker/"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/shell/ || exit 1"]
+      interval: 1s
+      timeout: 10s
+      retries: 3
+    ports:
+      - "8000:8000"
+  elasticsearch:
+    image: "elasticsearch:5.6-alpine"
+    environment:
+      - "discovery.type=single-node"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sSf http://localhost:9200/"]
+      interval: 1s
+      timeout: 10s
+      retries: 3
+    ports:
+      - "9200:9200"
+      - "9300:9300"

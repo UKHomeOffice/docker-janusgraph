@@ -1,2 +1,4 @@
+.docker-compose/
+.env
 deps/
 build/

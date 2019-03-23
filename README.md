@@ -24,3 +24,43 @@ Building
 - To build a Docker image, tagged as `janusgraph`, run `make docker`.
 - To build everything required to build a Docker image run `make build`.
 - To pull down external dependencies without building run `make deps`.
+
+
+Running
+-------
+
+In order facilitate testing and experimentation, a docker-compose is provided
+that runs JanusGraph against a local DynamoDB back-end with an ElasticSearch
+instance for indexing.
+
+You can bring the system up with:
+```shell
+make run
+```
+
+You can get a shell by opening another terminal and running:
+```shell
+make shell
+```
+
+Once in, you can use the following command to play with some sample data:
+```groovy
+:remote connect tinkerpop.server conf/remote.yaml session
+:remote console
+GraphOfTheGodsFactory.load(graph)
+```
+
+We expect an extra command will be required on JanusGraph v0.3.0:
+```groovy
+g = graph.traversal()
+```
+
+You can get some data out with:
+```groovy
+g.V().has('name', 'pluto').out('lives').in('lives').values('name')
+```
+
+Alternatively, you can make requests against gremlin with cURL:
+```shell
+curl -k -X POST -d "{\"gremlin\":\"g.V().has('name', x).out('lives').in('lives').values('name')\", \"language\":\"gremlin-groovy\", \"bindings\":{\"x\":\"pluto\"}}" "https://localhost:8182"
+```
