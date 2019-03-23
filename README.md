@@ -64,3 +64,12 @@ Alternatively, you can make requests against gremlin with cURL:
 ```shell
 curl -k -X POST -d "{\"gremlin\":\"g.V().has('name', x).out('lives').in('lives').values('name')\", \"language\":\"gremlin-groovy\", \"bindings\":{\"x\":\"pluto\"}}" "https://localhost:8182"
 ```
+
+
+Testing
+-------
+
+In the future it will be possible to acceptance test this repository by running:
+```shell
+make test
+```

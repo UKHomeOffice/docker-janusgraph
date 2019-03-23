@@ -24,6 +24,9 @@ run: build/janusgraph.zip .env
 shell:
 	docker exec -i -t "$$(basename $${PWD})_janusgraph_1" /var/janusgraph/bin/gremlin.sh
 
+test:
+	echo 'NOT YET IMPLEMENTED' && false
+
 .env: .docker-compose/janusgraph.crt .docker-compose/janusgraph.key
 	bash .env.sh > .env
 
