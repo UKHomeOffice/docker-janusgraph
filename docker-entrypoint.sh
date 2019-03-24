@@ -4,6 +4,13 @@ set -euo pipefail
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+set -a
+ELASTICSEARCH_HOST="${ELASTICSEARCH_HOST:-localhost}"
+ELASTICSEARCH_PORT="${ELASTICSEARCH_PORT:-9200}"
+INDEX_SEARCH_HOST="${ELASTICSEARCH_HOST}"
+INDEX_SEARCH_PORT="${ELASTICSEARCH_PORT}"
+set +a
+
 pki_dir="/dev/shm/pki/"
 pki_crt="${pki_dir}/janusgraph.crt"
 pki_key="${pki_dir}/janusgraph.key"

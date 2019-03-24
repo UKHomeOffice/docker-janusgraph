@@ -3,6 +3,8 @@ services:
   janusgraph:
     build: "./"
     environment:
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
       - HTTPS_CRT=${JANUSGRAPH_CRT}
       - HTTPS_KEY=${JANUSGRAPH_KEY}
       - LISTEN_PORT=8182
