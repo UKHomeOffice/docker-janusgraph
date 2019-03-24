@@ -3,6 +3,7 @@ services:
   janusgraph:
     build: "./"
     environment:
+      - DYNAMODB_ENDPOINT=http://dynamodb:8000
       - ELASTICSEARCH_HOST=elasticsearch
       - ELASTICSEARCH_PORT=9200
       - HTTPS_CRT=${JANUSGRAPH_CRT}
