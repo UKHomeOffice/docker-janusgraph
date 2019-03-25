@@ -1,16 +1,18 @@
-FROM amazonlinux
+FROM openjdk:8-jre-alpine
 
 ENV LISTEN_HOST="0.0.0.0" \
     LISTEN_PORT="8182"
 EXPOSE 8182
 
-RUN yum update -y -q -e 0 \
- && yum upgrade -y -q -e 0 \
- && yum install -y -q \
+RUN apk upgrade -q --no-cache
+RUN apk add -q --no-cache \
+      bash \
+      ca-certificates \
       gettext \
-      java-1.8.0-openjdk \
+      gnupg \
+      nss \
       openssl \
-      shadow-utils \
+      shadow \
       unzip
 
 COPY build/janusgraph.zip /
@@ -22,7 +24,7 @@ RUN unzip -q /janusgraph.zip -d /var \
 COPY conf/ /var/janusgraph/conf-templates/
 COPY docker-entrypoint.sh /var/janusgraph/
 
-RUN adduser -rUM janus -u 31337 -d /var/janusgraph/ \
+RUN adduser -S janus -u 31337 -h /var/janusgraph/ \
  && chown -R janus /var/janusgraph/
 
 USER 31337
