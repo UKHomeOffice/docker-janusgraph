@@ -6,8 +6,14 @@ matrix:
   DOCKER_REPO:
     - quay.io
 pipeline:
+  build:
+    image: quay.io/ukhomeofficedigital/lev-ci:1.5.3
+    commands:
+      - make build
+    when:
+      event: [pull_request, tag]
   test:
-    image: quay.io/ukhomeofficedigital/lev-ci
+    image: quay.io/ukhomeofficedigital/lev-ci:1.5.3
     environment:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
