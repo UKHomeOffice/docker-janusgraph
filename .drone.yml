@@ -1,0 +1,25 @@
+matrix:
+  NAME:
+    - ukhomeofficedigital/janusgraph
+  DOCKER_USERNAME:
+    - ukhomeofficedigital+janusgraph
+  DOCKER_REPO:
+    - quay.io
+pipeline:
+  test:
+    image: quay.io/ukhomeofficedigital/lev-ci
+    environment:
+      - DOCKER_HOST=tcp://172.17.0.1:2375
+    commands:
+      - make 'compose_project_name=docker-janusgraph-${DRONE_BUILD_NUMBER}' test || true
+    when:
+      event: [pull_request, tag]
+  docker-build-and-push:
+    image: ukhomeoffice/drone-docker
+    secrets: [ docker_password ]
+    username: '${DOCKER_USERNAME}'
+    repo: '${DOCKER_REPO}/${NAME}'
+    registry: '${DOCKER_REPO}'
+    auto_tag: true
+    when:
+      event: tag
