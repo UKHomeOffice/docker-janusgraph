@@ -14,11 +14,14 @@ RUN apk add -q --no-cache \
       openssl \
       shadow \
       unzip \
-      zip
+      zip \
+      unzip
 
 RUN git clone --single-branch -b $DYNAMODB_VERSION $REPO_DRIVER_DYNAMODB /opt/dynamodb-janusgraph-storage-backend/
 WORKDIR /opt/dynamodb-janusgraph-storage-backend/
 RUN ./src/test/resources/install-gremlin-server.sh
+RUN unzip -q /opt/dynamodb-janusgraph-storage-backend/server/janusgraph-*.zip -d /var && \
+      mv /var/janusgraph-* /var/janusgraph
 
 
 FROM openjdk:8-jre-alpine
@@ -29,20 +32,12 @@ EXPOSE 8182
 
 RUN apk upgrade -q --no-cache
 RUN apk add -q --no-cache \
-      bash \
-      ca-certificates \
+      bash  \
       gettext \
-      gnupg \
       nss \
-      openssl \
-      shadow \
-      unzip
+      openssl
 
-COPY --from=builder /opt/dynamodb-janusgraph-storage-backend/server/janusgraph-*.zip /janusgraph.zip
-
-RUN unzip -q /janusgraph.zip -d /var \
- && rm /janusgraph.zip \
- && mv /var/janusgraph-*/ /var/janusgraph
+COPY --from=builder /var/janusgraph /var/janusgraph
 
 COPY conf/ /var/janusgraph/conf-templates/
 COPY docker-entrypoint.sh /var/janusgraph/
