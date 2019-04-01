@@ -1,3 +1,4 @@
+DOCKER_IMAGE ?= janusgraph
 
 repo_driver_dynamodb = https://github.com/awslabs/dynamodb-janusgraph-storage-backend.git
 keysize = 4096
@@ -24,7 +25,7 @@ clean:
 deps: deps/dynamodb-janusgraph-storage-backend/
 
 docker: build/janusgraph.zip
-	docker build -t 'janusgraph' .
+	docker build -t '$(DOCKER_IMAGE)' .
 
 run: build/janusgraph.zip .env
 	docker-compose up --build
