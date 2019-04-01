@@ -7,13 +7,13 @@ matrix:
     - quay.io
 pipeline:
   build:
-    image: quay.io/ukhomeofficedigital/lev-ci:1.5.3
+    image: quay.io/ukhomeofficedigital/cdp-ci:0.1.0
     commands:
       - make build
     when:
       event: [pull_request, tag]
   test:
-    image: quay.io/ukhomeofficedigital/lev-ci:1.5.3
+    image: quay.io/ukhomeofficedigital/cdp-ci:0.1.0
     environment:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
