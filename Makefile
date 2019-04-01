@@ -34,22 +34,29 @@ shell:
 	docker exec -i -t "$$(basename $${PWD})_janusgraph_1" /var/janusgraph/bin/gremlin.sh
 
 test: build/janusgraph.zip
+	@echo 'Taking down any previous test environment'
 	docker-compose -f docker-compose-test.yml -p '$(compose_project_name)' down -v
+	@echo 'Building images'
 	docker-compose -f docker-compose-test.yml -p '$(compose_project_name)' build
+	@echo 'Starting new test environment'
 	docker-compose -f docker-compose-test.yml -p '$(compose_project_name)' up &> /dev/null &
+	echo 'Waiting for Docker network'; \
 	compose_network=`$(probe_network)`; \
 	while [ $$? -ne 0 ]; do \
 		echo ...; \
 		sleep 5; \
 		compose_network=`$(probe_network)`; \
 	done; \
+	echo 'Waiting for Gremlin'; \
 	$(probe_gremlin); \
 	while [ $$? -ne 0 ]; do \
 		echo ...; \
 		sleep 5; \
 		$(probe_gremlin); \
 	done; \
+	echo 'Starting tests'; \
 	docker run --net "$${compose_network}" --rm 'byrnedo/alpine-curl' -kfs -X POST -d '{"gremlin":"x+x", "language":"gremlin-groovy", "bindings":{"x":1}}' 'https://janusgraph:8182/' | jq -e '.result.data == [2]'
+	@echo 'Tests complete; bringing down test environment'
 	docker-compose -f docker-compose-test.yml -p '$(compose_project_name)' down -v
 
 .env: .docker-compose/janusgraph.crt .docker-compose/janusgraph.key
