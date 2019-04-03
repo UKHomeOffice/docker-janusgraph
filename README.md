@@ -16,6 +16,8 @@ Configuration
 The image can be configured by using the following environment variables:
 * **DYNAMODB_REGION**: The DynamoDB region to use. Default: `us-east-1`
 * **DYNAMODB_ENDPOINT**: The DynamoDB endpoint to use. Defaults to the endpoint for the region you select.
+* **DYNAMODB_AWS_ACCESS**: The AWS access key to use for DynamoDB.
+* **DYNAMODB_AWS_SECRET**: The AWS secret key to use for DynamoDB.
 * **ELASTICSEARCH_HOST**: The Elasticsearch host to connect to. Default: `localhost`
 * **ELASTICSEARCH_PORT**: The port on the Elasticsearch host to connect to. Default: `9200`
 * **HTTPS_CRT**: A base64 encoded TLS certificate to be used as the server certificate on the HTTP server.
