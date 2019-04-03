@@ -18,7 +18,9 @@ services:
       - "dynamodb"
       - "elasticsearch"
   dynamodb:
-    build: "./deps/dynamodb-janusgraph-storage-backend/src/test/resources/dynamodb-local-docker/"
+    build:
+      context: "."
+      dockerfile: "dynamodb.Dockerfile"
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/shell/ || exit 1"]
       interval: 1s
