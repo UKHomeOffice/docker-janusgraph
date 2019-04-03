@@ -14,8 +14,6 @@ services:
       interval: 1s
       timeout: 20s
       retries: 20
-    ports:
-      - "8182:8182"
     depends_on:
       - "dynamodb"
       - "elasticsearch"
@@ -28,8 +26,6 @@ services:
       interval: 1s
       timeout: 10s
       retries: 3
-    ports:
-      - "8000:8000"
   elasticsearch:
     image: "elasticsearch:5.6-alpine"
     environment:
@@ -39,6 +35,3 @@ services:
       interval: 1s
       timeout: 10s
       retries: 3
-    ports:
-      - "9200:9200"
-      - "9300:9300"

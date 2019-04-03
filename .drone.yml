@@ -17,7 +17,7 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
-      - make 'compose_project_name=docker-janusgraph-${DRONE_BUILD_NUMBER}' test || true
+      - make 'compose_project_name=docker-janusgraph-${DRONE_BUILD_NUMBER}' test
     when:
       event: [pull_request, tag]
   docker-build-and-push:
